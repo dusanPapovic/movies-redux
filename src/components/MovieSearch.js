@@ -1,20 +1,40 @@
-import React, { useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { getMovies } from "../store/movies/slice";
+import _ from "lodash";
 
 export default function MovieSearch() {
-const [data, setData] = useState({
-    title: '',
-  });
-  console.log(data.title);
+const [searchTerm, setSearchTerm] = useState("");
+  const dispatch = useDispatch();
+
+  function handleChangeSearchTerm(event) {
+    setSearchTerm(event.target.value);
+  }
+
+  const search = () => {
+    console.log("debounced search", { searchTerm });
+    if (!searchTerm || searchTerm.length > 2) {
+      dispatch(getMovies(searchTerm));
+    }
+  };
+
+  const debouncedChange = useCallback(
+    _.debounce(handleChangeSearchTerm, 500),
+    []
+  );
+
+  useEffect(() => {
+    console.log("use effect", searchTerm);
+    search();
+  }, [searchTerm]);
+  
   return (
     <div>
-      <h2>Search movies</h2>
       <input
-      type="text"
-          value={data.title}
-          placeholder="Title"
-          onChange={({ target }) => 
-    setData({...data, title:target.value})}
-        />
+        type="text"
+        onChange={debouncedChange}
+        placeholder="Search movies"
+      />
     </div>
   );
 }

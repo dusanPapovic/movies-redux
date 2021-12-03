@@ -7,11 +7,13 @@ import {
 } from "react-router-dom";
 
 import AppMovies from "./pages/AppMovies";
+import MovieSearch from "./components/MovieSearch";
 
 function App() {
   return (
     <div className="App">
       <Router>
+         <MovieSearch />
         <nav>
           <ul>
             <li>

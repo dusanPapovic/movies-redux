@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectMovies } from "../store/movies/selectors";
 import { getMovies } from "../store/movies/slice";
 import MovieRow from '../components/MovieRow';
-import MovieSearch from '../components/MovieSearch';
 
 export default function AppMovies() {
   const dispatch = useDispatch();
@@ -14,8 +13,8 @@ export default function AppMovies() {
 
   return (
     <div style={{ marginLeft: 5 }}>
-        <MovieSearch />
       <h2>Movies</h2>
+      {movies.data.length ? (
       <ul>
         {movies.data.map((movie) => (
           <MovieRow
@@ -30,6 +29,9 @@ export default function AppMovies() {
           />
         ))}
       </ul>
+      ) : (
+         <div>Nema filmova sa ovim naslovom</div>
+          )}
     </div>
   );
 }

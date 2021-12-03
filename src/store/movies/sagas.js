@@ -5,9 +5,9 @@ import {
   setMovies,
 } from "./slice";
 
-function* handleGetMovies() {
+function* handleGetMovies(action) {
   try {
-    const movies = yield call(movieService.getAll);
+    const movies = yield call(movieService.getAll, action.payload);
     yield put(setMovies(movies));
   } catch (error) {
     console.log(error);
